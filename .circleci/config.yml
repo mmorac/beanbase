@@ -23,11 +23,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run:
-          name: Copy firebase.json and .firebaserc to workspace
-          command: |
-            cp ~/repo/firebase.json ./firebase.json
-            cp ~/repo/.firebaserc ./.firebaserc
+      - checkout
       - run:
           name: Install Firebase CLI
           command: npm install -g firebase-tools
