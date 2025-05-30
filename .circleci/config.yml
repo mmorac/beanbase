@@ -17,6 +17,8 @@ jobs:
           root: .
           paths:
             - build
+            - firebase.json
+            - .firebaserc
   deploy:
     docker:
       - image: cimg/node:20.10
