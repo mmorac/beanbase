@@ -24,12 +24,16 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Copy firebase.json and .firebaserc to workspace
+          command: |
+            cp ~/repo/firebase.json ./firebase.json
+            cp ~/repo/.firebaserc ./.firebaserc
+      - run:
           name: Install Firebase CLI
           command: npm install -g firebase-tools
       - run:
           name: Deploy to Firebase Hosting
           command: |
-            echo $FIREBASE_TOKEN | firebase login:ci --token $FIREBASE_TOKEN || true
             firebase deploy --only hosting --project bean-base --token $FIREBASE_TOKEN
 
 workflows:
