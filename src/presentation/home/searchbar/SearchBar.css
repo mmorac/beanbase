@@ -32,3 +32,12 @@
 .searchbar-input:focus {
   border-color: #007bff;
 }
+
+.logo-image {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px #0002;
+}

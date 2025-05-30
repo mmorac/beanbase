@@ -22,6 +22,8 @@ const SearchAndMap: React.FC = () => {
 
   return (
     <div className="searchbar-container">
+      <img src="/img/coffee_beans.jpg" className="logo-image" style={{ display: 'block' }} />
+        
       <input
         type="text"
         className="searchbar-input"
