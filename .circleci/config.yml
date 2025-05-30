@@ -23,7 +23,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout
       - run:
           name: Install Firebase CLI
           command: npm install -g firebase-tools
