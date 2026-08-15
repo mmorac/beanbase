@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Deploy to Firebase Hosting
           command: |
-            firebase deploy --only hosting --project bean-base --token $FIREBASE_TOKEN
+            firebase deploy --only hosting --project bean-base --non-interactive --token "$FIREBASE_TOKEN"
 
 workflows:
   version: 2
