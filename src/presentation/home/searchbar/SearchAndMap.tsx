@@ -1,9 +1,13 @@
 import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Map from '../map/Map';
-import { DUMMY_CLIENTS, MarkerData } from '../map/dummyClients';
+import {
+  DUMMY_CLIENTS,
+  MarkerData,
+  getClientLocationLabel,
+  getClientName,
+  matchesClientQuery,
+} from '../map/dummyClients';
 import './SearchBar.css';
-
-const getClientName = (client: MarkerData) => client.title || client.label || '';
 
 const SearchAndMap: React.FC = () => {
   const [search, setSearch] = useState('');
@@ -18,9 +22,7 @@ const SearchAndMap: React.FC = () => {
       return [];
     }
 
-    return DUMMY_CLIENTS.filter(client =>
-      getClientName(client).toLowerCase().includes(query)
-    );
+    return DUMMY_CLIENTS.filter(client => matchesClientQuery(client, query));
   }, [search]);
 
   const visibleMarkers = search.trim() ? suggestions : DUMMY_CLIENTS;
@@ -76,15 +78,14 @@ const SearchAndMap: React.FC = () => {
   return (
     <div className="searchbar-container">
       <div className="searchbar-panel">
-      <img src="/img/coffee_beans.jpg" alt="Coffee Beans Logo" className="logo-image" style={{ display: 'block' }} />
-      <h1 className="brand-title">BeanBase</h1>
+      <img src="/img/BeanBaseLogo.jpg" alt="BeanBase logo" className="logo-image" style={{ display: 'block' }} />
       <p className="brand-subtitle">Find your next favorite cup</p>
 
       <div className="searchbar-wrap" ref={searchWrapRef}>
         <input
           type="text"
           className="searchbar-input"
-          placeholder="Search clients..."
+          placeholder="Search by name, city, state, or postal code..."
           value={search}
           onChange={e => handleSearchChange(e.target.value)}
           onFocus={() => search.trim() && setIsSuggestionsOpen(true)}
@@ -99,6 +100,7 @@ const SearchAndMap: React.FC = () => {
             {suggestions.length > 0 ? (
               suggestions.map((client, index) => {
                 const name = getClientName(client);
+                const location = getClientLocationLabel(client);
                 return (
                   <li key={`${name}-${index}`}>
                     <button
@@ -109,7 +111,10 @@ const SearchAndMap: React.FC = () => {
                       role="option"
                       aria-selected={index === activeSuggestion}
                     >
-                      {name}
+                      <span className="searchbar-suggestion-name">{name}</span>
+                      {location && (
+                        <span className="searchbar-suggestion-location">{location}</span>
+                      )}
                     </button>
                   </li>
                 );
