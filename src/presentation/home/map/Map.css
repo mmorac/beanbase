@@ -11,3 +11,58 @@
   align-items: flex-end;
   padding-bottom: 32px;
 }
+
+.client-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.client-marker:hover,
+.client-marker.is-selected {
+  z-index: 20;
+}
+
+.client-marker-pin {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(180deg, #8b5a2b 0%, #5c3317 100%);
+  border: 2px solid #fff8ee;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 10px rgba(60, 32, 12, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.client-marker:hover .client-marker-pin,
+.client-marker.is-selected .client-marker-pin {
+  background: linear-gradient(180deg, #c47a3a 0%, #7a3f16 100%);
+}
+
+.client-marker-icon {
+  width: 14px;
+  height: 14px;
+  transform: rotate(45deg);
+  color: #fff8ee;
+}
+
+.client-marker-name {
+  margin-top: 6px;
+  padding: 3px 8px;
+  background: rgba(255, 248, 238, 0.96);
+  border: 1px solid rgba(92, 51, 23, 0.12);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #3d2412;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  white-space: nowrap;
+  pointer-events: none;
+}

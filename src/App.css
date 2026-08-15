@@ -1,5 +1,16 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.App::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(24, 12, 6, 0.38) 100%);
 }
 
 .App-logo {
