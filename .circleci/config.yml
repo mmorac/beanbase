@@ -31,7 +31,24 @@ jobs:
       - run:
           name: Deploy to Firebase Hosting
           command: |
-            firebase deploy --only hosting --project bean-base --non-interactive --token "$FIREBASE_TOKEN"
+            set -euo pipefail
+            KEY_FILE="$HOME/firebase-service-account.json"
+
+            if [ -n "${FIREBASE_SERVICE_ACCOUNT:-}" ]; then
+              FIRST_CHAR="$(printf '%s' "$FIREBASE_SERVICE_ACCOUNT" | cut -c1)"
+              if [ "$FIRST_CHAR" = "{" ]; then
+                printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$KEY_FILE"
+              else
+                printf '%s' "$FIREBASE_SERVICE_ACCOUNT" | base64 --decode > "$KEY_FILE"
+              fi
+              export GOOGLE_APPLICATION_CREDENTIALS="$KEY_FILE"
+              firebase deploy --only hosting --project bean-base --non-interactive
+            elif [ -n "${FIREBASE_TOKEN:-}" ]; then
+              firebase deploy --only hosting --project bean-base --non-interactive --token "$FIREBASE_TOKEN"
+            else
+              echo "Set CircleCI env var FIREBASE_SERVICE_ACCOUNT (recommended) or FIREBASE_TOKEN"
+              exit 1
+            fi
 
 workflows:
   version: 2

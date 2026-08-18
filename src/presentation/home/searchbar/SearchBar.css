@@ -26,8 +26,29 @@
 
 .searchbar-wrap {
   position: relative;
-  width: min(420px, 100%);
-  margin-bottom: 32px;
+  width: min(520px, 100%);
+  margin-bottom: 0;
+}
+
+.searchbar-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.searchbar-row .searchbar-input {
+  flex: 1;
+}
+
+.searchbar-submit {
+  border: 0;
+  border-radius: 25px;
+  padding: 0 18px;
+  background: #5c3317;
+  color: #fff8ee;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .searchbar-input {

@@ -1,3 +1,13 @@
+export const ORIGIN_COUNTRIES = ['Costa Rica', 'Colombia', 'Brazil', 'Kenya', 'Guatemala'] as const;
+export const PROCESSING_TYPES = ['Washed', 'Natural', 'Honey', 'Anaerobic', 'Wet-hulled'] as const;
+export const MIN_RADIUS_KM = 0.5;
+export const MAX_RADIUS_KM = 100;
+export const RADIUS_STEP_KM = 0.5;
+export const DEFAULT_RADIUS_KM = 25;
+
+export type OriginCountry = (typeof ORIGIN_COUNTRIES)[number];
+export type ProcessingType = (typeof PROCESSING_TYPES)[number];
+
 export interface MarkerData {
   lat: number;
   lng: number;
@@ -9,6 +19,9 @@ export interface MarkerData {
   region?: string;
   postalCode?: string;
   country?: string;
+  origins: OriginCountry[];
+  processingTypes: ProcessingType[];
+  organic: boolean;
 }
 
 export const getClientName = (client: MarkerData) => client.title || client.label || '';
@@ -48,8 +61,41 @@ export const matchesClientQuery = (client: MarkerData, query: string) => {
   });
 };
 
+const hashString = (value: string) => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+const pickSubset = <T,>(items: readonly T[], seed: number, minCount: number, maxCount: number): T[] => {
+  const count = minCount + (seed % (maxCount - minCount + 1));
+  const picked: T[] = [];
+
+  for (let i = 0; i < count; i += 1) {
+    picked.push(items[(seed + i * 3) % items.length]);
+  }
+
+  return Array.from(new Set(picked));
+};
+
+const withRoasterCatalog = (
+  client: Omit<MarkerData, 'origins' | 'processingTypes' | 'organic'>
+): MarkerData => {
+  const seed = hashString(client.title || client.label || `${client.lat},${client.lng}`);
+
+  return {
+    ...client,
+    origins: pickSubset(ORIGIN_COUNTRIES, seed, 1, 3),
+    processingTypes: pickSubset(PROCESSING_TYPES, seed >>> 3, 1, 3),
+    organic: seed % 100 < 42,
+  };
+};
+
 /** Placeholder client locations until real data is wired in. */
-export const DUMMY_CLIENTS: MarkerData[] = [
+const RAW_CLIENTS: Omit<MarkerData, 'origins' | 'processingTypes' | 'organic'>[] = [
   { lat: 40.4168, lng: -3.7038, title: 'Sol Roasters', town: 'Sol', city: 'Madrid', state: 'Community of Madrid', region: 'MD', postalCode: '28013', country: 'Spain' },
   { lat: 40.4267, lng: -3.7035, title: 'Malasaña Beans Co.', town: 'Malasaña', city: 'Madrid', state: 'Community of Madrid', region: 'MD', postalCode: '28004', country: 'Spain' },
   { lat: 40.4153, lng: -3.6840, title: 'Retiro Coffee Lab', town: 'Retiro', city: 'Madrid', state: 'Community of Madrid', region: 'MD', postalCode: '28001', country: 'Spain' },
@@ -86,3 +132,5 @@ export const DUMMY_CLIENTS: MarkerData[] = [
   { lat: 21.3069, lng: -157.8583, title: 'Kona Street Café', town: 'Downtown', city: 'Honolulu', state: 'Hawaii', region: 'HI', postalCode: '96813', country: 'USA' },
   { lat: 61.2181, lng: -149.9003, title: 'Anchorage Arctic Brew', town: 'Downtown', city: 'Anchorage', state: 'Alaska', region: 'AK', postalCode: '99501', country: 'USA' },
 ];
+
+export const DUMMY_CLIENTS: MarkerData[] = RAW_CLIENTS.map(withRoasterCatalog);

@@ -1,13 +1,21 @@
-import React, { useRef, useEffect, useState } from 'react';
+/// <reference types="google.maps" />
+import React, { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { didGoogleMapsAuthFail, loadGoogleMaps, onGoogleMapsAuthFailure } from '../../search/googleMaps';
 import './Map.css';
 import { MarkerData } from './dummyClients';
 
 interface MapProps {
   markers: MarkerData[];
   selectedTitle?: string;
+  height?: string;
+  className?: string;
+  center?: { lat: number; lng: number };
+  onMarkerSelect?: (title: string) => void;
 }
 
-const DEFAULT_POSITION = { lat: 40.4168, lng: -3.7038 }; // Madrid, Spain
+const DEFAULT_POSITION = { lat: 40.4168, lng: -3.7038 };
 
 const escapeHtml = (value: string) =>
   value
@@ -16,7 +24,24 @@ const escapeHtml = (value: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-const createClientMarker = (
+const markerMarkup = (name: string) => `
+  <div class="client-marker-pin">
+    <svg class="client-marker-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M17 8h1a4 4 0 0 1 0 8h-1v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8h14Zm0 2v4h1a2 2 0 0 0 0-4h-1Z"/>
+    </svg>
+  </div>
+  <div class="client-marker-name">${escapeHtml(name)}</div>
+`;
+
+const createLeafletIcon = (name: string, isSelected = false) =>
+  L.divIcon({
+    className: `client-marker${isSelected ? ' is-selected' : ''}`,
+    html: markerMarkup(name),
+    iconSize: [140, 58],
+    iconAnchor: [70, 32],
+  });
+
+const createGoogleMarker = (
   maps: typeof google.maps,
   map: google.maps.Map,
   markerData: MarkerData,
@@ -29,19 +54,12 @@ const createClientMarker = (
 
     constructor() {
       super();
-      const name = markerData.title || markerData.label || 'Client';
+      const name = markerData.title || markerData.label || 'Roaster';
       this.position = new maps.LatLng(markerData.lat, markerData.lng);
       this.container = document.createElement('div');
-      this.container.className = `client-marker${isSelected ? ' is-selected' : ''}`;
+      this.container.className = `client-marker is-google${isSelected ? ' is-selected' : ''}`;
       this.container.title = name;
-      this.container.innerHTML = `
-        <div class="client-marker-pin">
-          <svg class="client-marker-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M17 8h1a4 4 0 0 1 0 8h-1v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8h14Zm0 2v4h1a2 2 0 0 0 0-4h-1Z"/>
-          </svg>
-        </div>
-        <div class="client-marker-name">${escapeHtml(name)}</div>
-      `;
+      this.container.innerHTML = markerMarkup(name);
       this.container.addEventListener('click', () => onSelect(this.container));
       this.setMap(map);
     }
@@ -67,88 +85,192 @@ const createClientMarker = (
   return new ClientMarkerOverlay();
 };
 
-const Map: React.FC<MapProps> = ({ markers, selectedTitle }) => {
+const Map: React.FC<MapProps> = ({
+  markers,
+  selectedTitle,
+  height = '450px',
+  className,
+  center,
+  onMarkerSelect,
+}) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.OverlayView[]>([]);
-  const [isMapReady, setIsMapReady] = useState(false);
+  const googleMap = useRef<google.maps.Map | null>(null);
+  const googleOverlays = useRef<google.maps.OverlayView[]>([]);
+  const leafletMap = useRef<L.Map | null>(null);
+  const leafletLayer = useRef<L.LayerGroup | null>(null);
+  const [engine, setEngine] = useState<'google' | 'leaflet' | null>(null);
 
-  // Load Google Maps script and initialize map
   useEffect(() => {
-    let script: HTMLScriptElement | null = null;
-    function onScriptLoad() {
-      if (window.google && mapRef.current) {
-        if (mapInstance.current) {
-          mapInstance.current = null;
-        }
-        mapInstance.current = new window.google.maps.Map(mapRef.current, {
-          center: DEFAULT_POSITION,
-          zoom: 13,
-          zoomControl: true,
-          mapTypeControl: true,
-          mapTypeControlOptions: {
-            style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-            position: window.google.maps.ControlPosition.TOP_RIGHT,
-          },
-          scaleControl: true,
-          streetViewControl: true,
-          streetViewControlOptions: {
-            position: window.google.maps.ControlPosition.RIGHT_TOP,
-          },
-          rotateControl: true,
-          fullscreenControl: true,
-          fullscreenControlOptions: {
-            position: window.google.maps.ControlPosition.RIGHT_BOTTOM,
-          },
-          gestureHandling: 'auto',
-          draggable: true,
-        });
-        setIsMapReady(true);
+    let cancelled = false;
+    let unsubscribeAuth: (() => void) | undefined;
+
+    const startLeaflet = () => {
+      if (cancelled || !mapRef.current || leafletMap.current) {
+        return;
       }
-    }
-    if (!window.google) {
-      script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCkVU8OIaB6wmSlaT8GdVOWwwVI9E1nTPw&libraries=places`;
-      script.async = true;
-      script.onload = onScriptLoad;
-      document.body.appendChild(script);
-    } else {
-      onScriptLoad();
-    }
-    return () => {
-      if (script) {
-        script.onload = null;
-      }
+
+      googleMap.current = null;
+      googleOverlays.current = [];
+      mapRef.current.innerHTML = '';
+
+      const map = L.map(mapRef.current, {
+        center: [center?.lat ?? DEFAULT_POSITION.lat, center?.lng ?? DEFAULT_POSITION.lng],
+        zoom: 13,
+        zoomControl: true,
+        scrollWheelZoom: true,
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+      }).addTo(map);
+
+      leafletLayer.current = L.layerGroup().addTo(map);
+      leafletMap.current = map;
+      setEngine('leaflet');
+
+      const invalidate = () => map.invalidateSize();
+      window.requestAnimationFrame(invalidate);
+      window.setTimeout(invalidate, 150);
     };
-    // eslint-disable-next-line
+
+    const startGoogle = () => {
+      if (cancelled || !mapRef.current || !window.google?.maps?.Map || googleMap.current) {
+        return;
+      }
+
+      googleMap.current = new window.google.maps.Map(mapRef.current, {
+        center: center ?? DEFAULT_POSITION,
+        zoom: 13,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        gestureHandling: 'greedy',
+        clickableIcons: false,
+        styles: [
+          { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+          { featureType: 'transit', stylers: [{ visibility: 'simplified' }] },
+        ],
+      });
+      setEngine('google');
+    };
+
+    unsubscribeAuth = onGoogleMapsAuthFailure(() => {
+      if (cancelled) {
+        return;
+      }
+      googleMap.current = null;
+      googleOverlays.current = [];
+      startLeaflet();
+    });
+
+    const fallbackTimer = window.setTimeout(() => {
+      if (!cancelled && !googleMap.current && !leafletMap.current) {
+        startLeaflet();
+      }
+    }, 2500);
+
+    loadGoogleMaps()
+      .then(() => {
+        if (cancelled || didGoogleMapsAuthFail()) {
+          startLeaflet();
+          return;
+        }
+        startGoogle();
+      })
+      .catch(() => {
+        startLeaflet();
+      });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallbackTimer);
+      unsubscribeAuth?.();
+      googleOverlays.current.forEach(overlay => overlay.setMap(null));
+      googleOverlays.current = [];
+      googleMap.current = null;
+      leafletMap.current?.remove();
+      leafletMap.current = null;
+      leafletLayer.current = null;
+    };
+    // Initialize once; later center/marker updates are handled below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update map markers when props change or the map becomes ready
   useEffect(() => {
-    if (!isMapReady || !window.google || !mapInstance.current) {
+    if (engine === 'google' && googleMap.current && window.google?.maps) {
+      googleOverlays.current.forEach(overlay => overlay.setMap(null));
+      googleOverlays.current = [];
+
+      let selectedMarker: HTMLDivElement | null = null;
+      const selectMarker = (element: HTMLDivElement, title?: string) => {
+        selectedMarker?.classList.remove('is-selected');
+        selectedMarker = element;
+        selectedMarker.classList.add('is-selected');
+        if (title) {
+          onMarkerSelect?.(title);
+        }
+      };
+
+      markers.forEach(markerData => {
+        const name = markerData.title || markerData.label;
+        const overlay = createGoogleMarker(
+          window.google.maps,
+          googleMap.current!,
+          markerData,
+          element => selectMarker(element, name),
+          Boolean(selectedTitle && name === selectedTitle)
+        );
+        googleOverlays.current.push(overlay);
+      });
+
+      const focusedMarker = selectedTitle
+        ? markers.find(marker => (marker.title || marker.label) === selectedTitle)
+        : undefined;
+
+      if (focusedMarker) {
+        googleMap.current.panTo({ lat: focusedMarker.lat, lng: focusedMarker.lng });
+        googleMap.current.setZoom(15);
+        return;
+      }
+
+      if (markers.length > 1) {
+        const bounds = new window.google.maps.LatLngBounds();
+        markers.forEach(({ lat, lng }) => bounds.extend({ lat, lng }));
+        googleMap.current.fitBounds(bounds, 28);
+        return;
+      }
+
+      if (markers.length === 1) {
+        googleMap.current.setCenter({ lat: markers[0].lat, lng: markers[0].lng });
+        googleMap.current.setZoom(14);
+        return;
+      }
+
+      if (center) {
+        googleMap.current.setCenter(center);
+        googleMap.current.setZoom(13);
+      }
       return;
     }
 
-    markersRef.current.forEach(marker => marker.setMap(null));
-    markersRef.current = [];
+    const map = leafletMap.current;
+    const layer = leafletLayer.current;
+    if (engine !== 'leaflet' || !map || !layer) {
+      return;
+    }
 
-    let selectedMarker: HTMLDivElement | null = null;
-    const selectMarker = (element: HTMLDivElement) => {
-      selectedMarker?.classList.remove('is-selected');
-      selectedMarker = element;
-      selectedMarker.classList.add('is-selected');
-    };
+    layer.clearLayers();
 
     markers.forEach(markerData => {
-      const name = markerData.title || markerData.label;
-      const overlay = createClientMarker(
-        window.google.maps,
-        mapInstance.current!,
-        markerData,
-        selectMarker,
-        Boolean(selectedTitle && name === selectedTitle)
-      );
-      markersRef.current.push(overlay);
+      const name = markerData.title || markerData.label || 'Roaster';
+      const marker = L.marker([markerData.lat, markerData.lng], {
+        icon: createLeafletIcon(name, Boolean(selectedTitle && name === selectedTitle)),
+        title: name,
+      });
+
+      marker.on('click', () => onMarkerSelect?.(name));
+      marker.addTo(layer);
     });
 
     const focusedMarker = selectedTitle
@@ -156,16 +278,35 @@ const Map: React.FC<MapProps> = ({ markers, selectedTitle }) => {
       : undefined;
 
     if (focusedMarker) {
-      mapInstance.current.panTo({ lat: focusedMarker.lat, lng: focusedMarker.lng });
-      mapInstance.current.setZoom(15);
-    } else if (markers.length > 0) {
-      const bounds = new window.google.maps.LatLngBounds();
-      markers.forEach(({ lat, lng }) => bounds.extend({ lat, lng }));
-      mapInstance.current.fitBounds(bounds);
+      map.setView([focusedMarker.lat, focusedMarker.lng], Math.max(map.getZoom(), 15), { animate: true });
+      return;
     }
-  }, [markers, selectedTitle, isMapReady]);
 
-  return <div ref={mapRef} style={{ width: '100%', height: '450px', borderRadius: '16px', boxShadow: '0 2px 8px #0001', marginTop: '40px' }} />;
+    if (markers.length > 1) {
+      const bounds = L.latLngBounds(markers.map(marker => [marker.lat, marker.lng] as L.LatLngTuple));
+      map.fitBounds(bounds, { padding: [28, 28], maxZoom: 14 });
+      return;
+    }
+
+    if (markers.length === 1) {
+      map.setView([markers[0].lat, markers[0].lng], 14);
+      return;
+    }
+
+    if (center) {
+      map.setView([center.lat, center.lng], 13);
+    }
+
+    map.invalidateSize();
+  }, [center, engine, markers, onMarkerSelect, selectedTitle]);
+
+  return (
+    <div
+      ref={mapRef}
+      className={className}
+      style={{ width: '100%', height, borderRadius: '16px', boxShadow: className ? undefined : '0 2px 8px #0001' }}
+    />
+  );
 };
 
 export default Map;

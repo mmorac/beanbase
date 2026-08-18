@@ -1,0 +1,16 @@
+.app-version-badge {
+  position: fixed;
+  right: 12px;
+  bottom: 10px;
+  z-index: 40;
+  margin: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 248, 238, 0.88);
+  color: #5c3317;
+  font-size: 0.68rem;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(24, 12, 6, 0.16);
+}
