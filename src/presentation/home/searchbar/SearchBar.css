@@ -139,3 +139,36 @@
   color: #7a5a3d;
   font-size: 0.98rem;
 }
+
+@media (max-width: 760px) {
+  .searchbar-container {
+    padding: 6vh 14px 72px;
+  }
+
+  .searchbar-panel {
+    padding: 24px 16px 22px;
+    border-radius: 22px;
+  }
+
+  .searchbar-row {
+    flex-direction: column;
+  }
+
+  .searchbar-submit {
+    min-height: 46px;
+    width: 100%;
+  }
+
+  .searchbar-input {
+    font-size: 1rem;
+  }
+
+  .search-results-header .searchbar-row {
+    flex-direction: row;
+  }
+
+  .search-results-header .searchbar-submit {
+    width: auto;
+    min-width: 88px;
+  }
+}

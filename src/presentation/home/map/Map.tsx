@@ -104,13 +104,16 @@ const Map: React.FC<MapProps> = ({
     let cancelled = false;
     let unsubscribeAuth: (() => void) | undefined;
 
+    const containerHasGoogleTiles = () => Boolean(mapRef.current?.querySelector('.gm-style'));
+
     const startLeaflet = () => {
       if (cancelled || !mapRef.current || leafletMap.current) {
         return;
       }
 
-      googleMap.current = null;
+      googleOverlays.current.forEach(overlay => overlay.setMap(null));
       googleOverlays.current = [];
+      googleMap.current = null;
       mapRef.current.innerHTML = '';
 
       const map = L.map(mapRef.current, {
@@ -131,52 +134,65 @@ const Map: React.FC<MapProps> = ({
       const invalidate = () => map.invalidateSize();
       window.requestAnimationFrame(invalidate);
       window.setTimeout(invalidate, 150);
+      window.setTimeout(invalidate, 400);
     };
 
     const startGoogle = () => {
-      if (cancelled || !mapRef.current || !window.google?.maps?.Map || googleMap.current) {
-        return;
+      if (cancelled || !mapRef.current || !window.google?.maps?.Map || googleMap.current || didGoogleMapsAuthFail()) {
+        return false;
       }
 
-      googleMap.current = new window.google.maps.Map(mapRef.current, {
-        center: center ?? DEFAULT_POSITION,
-        zoom: 13,
-        zoomControl: true,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: true,
-        gestureHandling: 'greedy',
-        clickableIcons: false,
-        styles: [
-          { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-          { featureType: 'transit', stylers: [{ visibility: 'simplified' }] },
-        ],
-      });
-      setEngine('google');
+      try {
+        googleMap.current = new window.google.maps.Map(mapRef.current, {
+          center: center ?? DEFAULT_POSITION,
+          zoom: 13,
+          zoomControl: true,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: true,
+          gestureHandling: 'greedy',
+          clickableIcons: false,
+          styles: [
+            { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+            { featureType: 'transit', stylers: [{ visibility: 'simplified' }] },
+          ],
+        });
+        setEngine('google');
+        window.google.maps.event.addListenerOnce(googleMap.current, 'idle', () => {
+          if (googleMap.current && window.google?.maps) {
+            window.google.maps.event.trigger(googleMap.current, 'resize');
+          }
+        });
+        window.setTimeout(() => {
+          if (!cancelled && !leafletMap.current && !containerHasGoogleTiles()) {
+            startLeaflet();
+          }
+        }, 1800);
+        return true;
+      } catch {
+        googleMap.current = null;
+        return false;
+      }
     };
 
     unsubscribeAuth = onGoogleMapsAuthFailure(() => {
       if (cancelled) {
         return;
       }
-      googleMap.current = null;
-      googleOverlays.current = [];
       startLeaflet();
     });
 
     const fallbackTimer = window.setTimeout(() => {
-      if (!cancelled && !googleMap.current && !leafletMap.current) {
+      if (!cancelled && !leafletMap.current && !containerHasGoogleTiles()) {
         startLeaflet();
       }
     }, 2500);
 
     loadGoogleMaps()
       .then(() => {
-        if (cancelled || didGoogleMapsAuthFail()) {
+        if (cancelled || didGoogleMapsAuthFail() || !startGoogle()) {
           startLeaflet();
-          return;
         }
-        startGoogle();
       })
       .catch(() => {
         startLeaflet();
@@ -192,6 +208,9 @@ const Map: React.FC<MapProps> = ({
       leafletMap.current?.remove();
       leafletMap.current = null;
       leafletLayer.current = null;
+      if (mapRef.current) {
+        mapRef.current.innerHTML = '';
+      }
     };
     // Initialize once; later center/marker updates are handled below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -300,11 +319,43 @@ const Map: React.FC<MapProps> = ({
     map.invalidateSize();
   }, [center, engine, markers, onMarkerSelect, selectedTitle]);
 
+  useEffect(() => {
+    const node = mapRef.current;
+    if (!node) {
+      return undefined;
+    }
+
+    const refreshSize = () => {
+      if (googleMap.current && window.google?.maps) {
+        window.google.maps.event.trigger(googleMap.current, 'resize');
+        return;
+      }
+
+      leafletMap.current?.invalidateSize();
+    };
+
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(refreshSize);
+    observer?.observe(node);
+    window.addEventListener('resize', refreshSize);
+    window.setTimeout(refreshSize, 80);
+    window.setTimeout(refreshSize, 320);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', refreshSize);
+    };
+  }, [engine]);
+
   return (
     <div
       ref={mapRef}
       className={className}
-      style={{ width: '100%', height, borderRadius: '16px', boxShadow: className ? undefined : '0 2px 8px #0001' }}
+      style={{
+        width: '100%',
+        height: className ? undefined : height,
+        borderRadius: '16px',
+        boxShadow: className ? undefined : '0 2px 8px #0001',
+      }}
     />
   );
 };

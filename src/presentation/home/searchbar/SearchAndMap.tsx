@@ -44,6 +44,7 @@ const SearchAndMap: React.FC = () => {
   const [organicOnly, setOrganicOnly] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState<string | undefined>(place || undefined);
   const [geocodedTarget, setGeocodedTarget] = useState<SearchTarget | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement>(null);
   const selectedCardRef = useRef<HTMLButtonElement>(null);
 
@@ -243,10 +244,35 @@ const SearchAndMap: React.FC = () => {
         </header>
 
         <div className="search-results-layout">
-          <aside className="search-results-panel">
-            <h2>Filters</h2>
-            <p>Narrow the roasters around {searchTarget?.label || query || 'your search'}.</p>
+          <aside className="search-results-map">
+            <Map
+              markers={filteredRoasters}
+              selectedTitle={selectedTitle}
+              center={searchTarget?.center}
+              height="min(78vh, 760px)"
+              className="results-map"
+              onMarkerSelect={setSelectedTitle}
+            />
+          </aside>
 
+          <aside className={`search-results-panel${filtersOpen ? ' is-open' : ''}`}>
+            <div className="search-results-panel-header">
+              <div>
+                <h2>Filters</h2>
+                <p>Narrow the roasters around {searchTarget?.label || query || 'your search'}.</p>
+              </div>
+              <button
+                type="button"
+                className="filters-toggle"
+                aria-expanded={filtersOpen}
+                aria-controls="search-filters"
+                onClick={() => setFiltersOpen(open => !open)}
+              >
+                {filtersOpen ? 'Hide filters' : 'Show filters'}
+              </button>
+            </div>
+
+            <div id="search-filters" className="search-results-filters">
             <div className="filter-group">
               <div className="radius-header">
                 <h3>Search radius</h3>
@@ -315,6 +341,7 @@ const SearchAndMap: React.FC = () => {
             <button type="button" className="clear-filters" onClick={clearFilters}>
               Reset filters
             </button>
+            </div>
           </aside>
 
           <section className="search-results-list">
@@ -372,17 +399,6 @@ const SearchAndMap: React.FC = () => {
               </div>
             )}
           </section>
-
-          <aside className="search-results-map">
-            <Map
-              markers={filteredRoasters}
-              selectedTitle={selectedTitle}
-              center={searchTarget?.center}
-              height="min(78vh, 760px)"
-              className="results-map"
-              onMarkerSelect={setSelectedTitle}
-            />
-          </aside>
         </div>
       </div>
     </div>

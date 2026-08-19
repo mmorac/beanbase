@@ -14,3 +14,11 @@
   pointer-events: none;
   box-shadow: 0 4px 12px rgba(24, 12, 6, 0.16);
 }
+
+@media (max-width: 760px) {
+  .app-version-badge {
+    right: 8px;
+    bottom: 8px;
+    font-size: 0.62rem;
+  }
+}
