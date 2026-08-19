@@ -101,22 +101,23 @@ const Map: React.FC<MapProps> = ({
   const [engine, setEngine] = useState<'google' | 'leaflet' | null>(null);
 
   useEffect(() => {
+    const mapNode = mapRef.current;
     let cancelled = false;
     let unsubscribeAuth: (() => void) | undefined;
 
-    const containerHasGoogleTiles = () => Boolean(mapRef.current?.querySelector('.gm-style'));
+    const containerHasGoogleTiles = () => Boolean(mapNode?.querySelector('.gm-style'));
 
     const startLeaflet = () => {
-      if (cancelled || !mapRef.current || leafletMap.current) {
+      if (cancelled || !mapNode || leafletMap.current) {
         return;
       }
 
       googleOverlays.current.forEach(overlay => overlay.setMap(null));
       googleOverlays.current = [];
       googleMap.current = null;
-      mapRef.current.innerHTML = '';
+      mapNode.innerHTML = '';
 
-      const map = L.map(mapRef.current, {
+      const map = L.map(mapNode, {
         center: [center?.lat ?? DEFAULT_POSITION.lat, center?.lng ?? DEFAULT_POSITION.lng],
         zoom: 13,
         zoomControl: true,
@@ -138,12 +139,12 @@ const Map: React.FC<MapProps> = ({
     };
 
     const startGoogle = () => {
-      if (cancelled || !mapRef.current || !window.google?.maps?.Map || googleMap.current || didGoogleMapsAuthFail()) {
+      if (cancelled || !mapNode || !window.google?.maps?.Map || googleMap.current || didGoogleMapsAuthFail()) {
         return false;
       }
 
       try {
-        googleMap.current = new window.google.maps.Map(mapRef.current, {
+        googleMap.current = new window.google.maps.Map(mapNode, {
           center: center ?? DEFAULT_POSITION,
           zoom: 13,
           zoomControl: true,
@@ -208,8 +209,8 @@ const Map: React.FC<MapProps> = ({
       leafletMap.current?.remove();
       leafletMap.current = null;
       leafletLayer.current = null;
-      if (mapRef.current) {
-        mapRef.current.innerHTML = '';
+      if (mapNode) {
+        mapNode.innerHTML = '';
       }
     };
     // Initialize once; later center/marker updates are handled below.
