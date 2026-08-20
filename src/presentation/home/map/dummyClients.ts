@@ -26,11 +26,29 @@ export interface MarkerData {
 
 export const getClientName = (client: MarkerData) => client.title || client.label || '';
 
+export const slugify = (value: string) =>
+  value
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+export const getClientSlug = (client: MarkerData | string) =>
+  slugify(typeof client === 'string' ? client : getClientName(client));
+
 export const getClientLocationLabel = (client: MarkerData) => {
   const locality = [client.town, client.city].filter(Boolean).join(', ');
   const stateOrRegion = client.state || client.region;
   const regionPostal = [stateOrRegion, client.postalCode].filter(Boolean).join(' ');
   return [locality, regionPostal].filter(Boolean).join(', ');
+};
+
+export const getClientAddress = (client: MarkerData) => {
+  const locality = [client.town, client.city].filter(Boolean).join(', ');
+  const region = client.state || client.region;
+  return [locality, region, client.postalCode, client.country].filter(Boolean).join(', ');
 };
 
 export const matchesClientQuery = (client: MarkerData, query: string) => {
@@ -134,3 +152,12 @@ const RAW_CLIENTS: Omit<MarkerData, 'origins' | 'processingTypes' | 'organic'>[]
 ];
 
 export const DUMMY_CLIENTS: MarkerData[] = RAW_CLIENTS.map(withRoasterCatalog);
+
+export const findClientBySlug = (slug?: string | null) => {
+  const normalized = slugify(slug || '');
+  if (!normalized) {
+    return undefined;
+  }
+
+  return DUMMY_CLIENTS.find(client => getClientSlug(client) === normalized);
+};

@@ -27,3 +27,10 @@ test('renders the results map and a mobile filter toggle', () => {
   expect(screen.getByRole('button', { name: /show filters/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /roasters nearby/i })).toBeInTheDocument();
 });
+
+test('links each roaster card to its shop page', () => {
+  renderSearch();
+
+  const shopLink = screen.getByRole('link', { name: /sol roasters/i });
+  expect(shopLink).toHaveAttribute('href', '/roaster/sol-roasters');
+});

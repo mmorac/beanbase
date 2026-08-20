@@ -219,12 +219,15 @@
 }
 
 .roaster-card {
+  display: block;
   width: 100%;
+  box-sizing: border-box;
   border: 2px solid rgba(92, 51, 23, 0.1);
   background: rgba(255, 255, 255, 0.55);
   border-radius: 18px;
   padding: 16px 18px;
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   color: inherit;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;

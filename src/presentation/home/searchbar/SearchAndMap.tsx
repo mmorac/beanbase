@@ -14,6 +14,7 @@ import {
   RADIUS_STEP_KM,
   getClientLocationLabel,
   getClientName,
+  getClientSlug,
   matchesClientQuery,
 } from '../map/dummyClients';
 import '../../search/SearchResults.css';
@@ -46,7 +47,7 @@ const SearchAndMap: React.FC = () => {
   const [geocodedTarget, setGeocodedTarget] = useState<SearchTarget | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement>(null);
-  const selectedCardRef = useRef<HTMLButtonElement>(null);
+  const selectedCardRef = useRef<HTMLAnchorElement>(null);
 
   const localTarget = useMemo(() => resolveLocalSearchTarget(query, place), [place, query]);
   const searchTarget = localTarget || geocodedTarget;
@@ -359,13 +360,13 @@ const SearchAndMap: React.FC = () => {
                 {filteredRoasters.map(client => {
                   const name = getClientName(client);
                   return (
-                    <button
+                    <Link
                       key={name}
-                      type="button"
+                      to={`/roaster/${getClientSlug(client)}`}
+                      state={{ fromSearch: searchParams.toString() ? `?${searchParams.toString()}` : '' }}
                       ref={selectedTitle === name ? selectedCardRef : undefined}
                       className={`roaster-card${selectedTitle === name ? ' is-selected' : ''}`}
-                      aria-pressed={selectedTitle === name}
-                      onClick={() => setSelectedTitle(name)}
+                      aria-current={selectedTitle === name ? 'true' : undefined}
                     >
                       <div className="roaster-card-top">
                         <div>
@@ -387,7 +388,7 @@ const SearchAndMap: React.FC = () => {
                           </span>
                         ))}
                       </div>
-                    </button>
+                    </Link>
                   );
                 })}
               </div>

@@ -1,4 +1,10 @@
-import { DUMMY_CLIENTS, ORIGIN_COUNTRIES, PROCESSING_TYPES } from '../home/map/dummyClients';
+import {
+  DUMMY_CLIENTS,
+  ORIGIN_COUNTRIES,
+  PROCESSING_TYPES,
+  findClientBySlug,
+  getClientSlug,
+} from '../home/map/dummyClients';
 import { distanceKm, resolveLocalSearchTarget, withDistance } from './searchUtils';
 
 describe('search utilities', () => {
@@ -50,5 +56,12 @@ describe('search utilities', () => {
     expect(target?.label).toBe('28013');
     expect(target?.source).toBe('location');
     expect(target?.center).toEqual({ lat: 40.4168, lng: -3.7038 });
+  });
+
+  test('resolves accented roaster names to unique slugs', () => {
+    const slugs = DUMMY_CLIENTS.map(client => getClientSlug(client));
+    expect(new Set(slugs).size).toBe(slugs.length);
+    expect(getClientSlug('Malasaña Beans Co.')).toBe('malasana-beans-co');
+    expect(findClientBySlug('malasana-beans-co')?.title).toBe('Malasaña Beans Co.');
   });
 });
