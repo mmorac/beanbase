@@ -4,8 +4,9 @@
   align-items: center;
   min-height: 100vh;
   justify-content: flex-start;
-  padding: 8vh 20px 5vh;
+  padding: 4vh 20px 5vh;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .searchbar-panel {
@@ -142,7 +143,7 @@
 
 @media (max-width: 760px) {
   .searchbar-container {
-    padding: 6vh 14px 72px;
+    padding: 3vh 14px 72px;
   }
 
   .searchbar-panel {

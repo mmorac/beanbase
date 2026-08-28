@@ -1,6 +1,6 @@
 {
   "name": "beanbase",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",

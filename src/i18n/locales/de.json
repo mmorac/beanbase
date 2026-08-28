@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "Sprache"
+  },
+  "common": {
+    "logoAlt": "BeanBase-Logo",
+    "brand": "BeanBase",
+    "organic": "Bio",
+    "km": "{value} km"
+  },
+  "home": {
+    "subtitle": "Finde deine nächste Lieblingstasse",
+    "searchPlaceholder": "Nach Ort oder Rösterei suchen...",
+    "search": "Suchen",
+    "inspirationTitle": "Beliebte Reiseziele",
+    "inspirationSubtitle": "Unsicher, wo du anfangen sollst? Vergleiche Spezialitätenröstereien in Städten, die Kaffeeliebhaber am häufigsten entdecken.",
+    "roastersCount": "{count} Röstereien",
+    "exploreDestination": "Kaffeeröstereien in {city} entdecken",
+    "popular": "Beliebt"
+  },
+  "search": {
+    "brandTagline": "Suche nach Kaffeeröstereien",
+    "filters": "Filter",
+    "filtersAround": "Röstereien rund um {place} eingrenzen.",
+    "hideFilters": "Filter ausblenden",
+    "showFilters": "Filter anzeigen",
+    "radius": "Suchradius",
+    "radiusAria": "Suchradius in Kilometern",
+    "origin": "Herkunftsland",
+    "processing": "Aufbereitung",
+    "organic": "Bio",
+    "organicAvailable": "Bio-Kaffee verfügbar",
+    "resetFilters": "Filter zurücksetzen",
+    "nearby": "{count} Röstereien in der Nähe",
+    "showing": "Optionen innerhalb von {radius} km um {place}.",
+    "prompt": "Suche eine Stadt, ein Viertel oder eine Rösterei, um Angebote in der Nähe zu sehen.",
+    "emptyFiltered": "Keine Rösterei entspricht diesen Filtern im gewählten Radius.",
+    "emptyPrompt": "Gib einen Ort oder den Namen einer Rösterei ein, um zu starten.",
+    "yourSearch": "deiner Suche"
+  },
+  "shop": {
+    "brandTagline": "Rösterei-Shop",
+    "cartOne": "Warenkorb · {count} Artikel",
+    "cartOther": "Warenkorb · {count} Artikel",
+    "returnToSearch": "Zurück zur Suche",
+    "availableProducts": "Verfügbare Produkte",
+    "productsIntro": "Röstungen basierend auf Herkunft, Aufbereitung und Bio-Angebot dieses Shops.",
+    "addToCart": "In den Warenkorb",
+    "addAnother": "Noch eines · {count} im Warenkorb"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " Bio",
+    "size250": "250 g",
+    "size1000": "1 kg",
+    "description": "Single-Origin-Kaffee aus {origin} mit {originNotes}. {processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "Costa Rica",
+    "Colombia": "Kolumbien",
+    "Brazil": "Brasilien",
+    "Kenya": "Kenia",
+    "Guatemala": "Guatemala"
+  },
+  "originNotes": {
+    "Costa Rica": "hellem Zitrus, honigsüßer Note und einem klaren Abgang",
+    "Colombia": "roter Frucht, Karamell und einem ausgewogenen Kakao-Körper",
+    "Brazil": "gerösteten Nüssen, Schokolade und einer sanften Tasse mit niedriger Säure",
+    "Kenya": "schwarzer Johannisbeere, Grapefruit und spritziger Säure",
+    "Guatemala": "braunem Zucker, Kakao und zarten Blütennoten"
+  },
+  "processing": {
+    "Washed": "Gewaschen",
+    "Natural": "Natural",
+    "Honey": "Honey",
+    "Anaerobic": "Anaerob",
+    "Wet-hulled": "Wet-hulled"
+  },
+  "processNotes": {
+    "Washed": "Die gewaschene Aufbereitung hält die Tasse klar und transparent.",
+    "Natural": "Die Natural-Aufbereitung bringt reife Frucht und einen saftigeren Körper.",
+    "Honey": "Die Honey-Aufbereitung verbindet klare Süße mit runder Textur.",
+    "Anaerobic": "Anaerobe Fermentation bringt vielschichtige, weinige Komplexität.",
+    "Wet-hulled": "Wet-hulled-Aufbereitung ergibt eine erdige Tasse mit vollem Körper."
+  },
+  "countries": {
+    "Spain": "Spanien",
+    "USA": "Vereinigte Staaten"
+  },
+  "cities": {
+    "Madrid": "Madrid",
+    "New York": "New York",
+    "Boston": "Boston",
+    "Philadelphia": "Philadelphia",
+    "Washington": "Washington",
+    "Miami": "Miami",
+    "Atlanta": "Atlanta",
+    "New Orleans": "New Orleans",
+    "Nashville": "Nashville",
+    "Austin": "Austin",
+    "Houston": "Houston",
+    "Dallas": "Dallas",
+    "Chicago": "Chicago",
+    "Detroit": "Detroit",
+    "Minneapolis": "Minneapolis",
+    "Kansas City": "Kansas City",
+    "St. Louis": "St. Louis",
+    "Denver": "Denver",
+    "Salt Lake City": "Salt Lake City",
+    "Phoenix": "Phoenix",
+    "Las Vegas": "Las Vegas",
+    "Seattle": "Seattle",
+    "Portland": "Portland",
+    "San Francisco": "San Francisco",
+    "Los Angeles": "Los Angeles",
+    "San Diego": "San Diego",
+    "Honolulu": "Honolulu",
+    "Anchorage": "Anchorage"
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { I18nProvider } from '../../../i18n/I18nContext';
 import SearchAndMap from './SearchAndMap';
 
 jest.mock('../map/Map', () => ({
@@ -10,14 +11,16 @@ jest.mock('../map/Map', () => ({
 
 const renderSearch = (path = '/search?q=Madrid') =>
   render(
-    <MemoryRouter
-      initialEntries={[path]}
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
-      <Routes>
-        <Route path="/search" element={<SearchAndMap />} />
-      </Routes>
-    </MemoryRouter>
+    <I18nProvider>
+      <MemoryRouter
+        initialEntries={[path]}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
+        <Routes>
+          <Route path="/search" element={<SearchAndMap />} />
+        </Routes>
+      </MemoryRouter>
+    </I18nProvider>
   );
 
 test('renders the results map and a mobile filter toggle', () => {

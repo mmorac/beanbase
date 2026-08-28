@@ -4,6 +4,15 @@
   position: relative;
 }
 
+.app-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 16px 0;
+  position: relative;
+  z-index: 50;
+  box-sizing: border-box;
+}
+
 .App::before {
   content: '';
   position: fixed;

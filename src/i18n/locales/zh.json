@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "语言"
+  },
+  "common": {
+    "logoAlt": "BeanBase 标志",
+    "brand": "BeanBase",
+    "organic": "有机",
+    "km": "{value} 公里"
+  },
+  "home": {
+    "subtitle": "发现你的下一杯心爱咖啡",
+    "searchPlaceholder": "按地点或烘焙商搜索...",
+    "search": "搜索",
+    "inspirationTitle": "热门目的地",
+    "inspirationSubtitle": "还不确定从哪里开始？比较咖啡爱好者最常探索的城市中的精品烘焙商。",
+    "roastersCount": "{count} 家烘焙商",
+    "exploreDestination": "探索 {city} 的咖啡烘焙商",
+    "popular": "热门"
+  },
+  "search": {
+    "brandTagline": "咖啡烘焙商搜索",
+    "filters": "筛选",
+    "filtersAround": "缩小 {place} 附近的烘焙商范围。",
+    "hideFilters": "隐藏筛选",
+    "showFilters": "显示筛选",
+    "radius": "搜索半径",
+    "radiusAria": "以公里计的搜索半径",
+    "origin": "产地国家",
+    "processing": "处理方式",
+    "organic": "有机",
+    "organicAvailable": "提供有机咖啡",
+    "resetFilters": "重置筛选",
+    "nearby": "附近有 {count} 家烘焙商",
+    "showing": "显示距 {place} {radius} 公里内的选项。",
+    "prompt": "搜索城市、街区或烘焙商，查看附近选项。",
+    "emptyFiltered": "在所选半径内没有符合这些筛选条件的烘焙商。",
+    "emptyPrompt": "输入地点或烘焙商名称开始搜索。",
+    "yourSearch": "你的搜索"
+  },
+  "shop": {
+    "brandTagline": "烘焙商店铺",
+    "cartOne": "购物车 · {count} 件商品",
+    "cartOther": "购物车 · {count} 件商品",
+    "returnToSearch": "返回搜索",
+    "availableProducts": "在售产品",
+    "productsIntro": "根据本店的产地、处理方式和有机供应推出的烘焙豆。",
+    "addToCart": "加入购物车",
+    "addAnother": "再加一件 · 购物车中已有 {count} 件"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " 有机",
+    "size250": "250克",
+    "size1000": "1公斤",
+    "description": "来自{origin}的单一产地咖啡，带有{originNotes}。{processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "哥斯达黎加",
+    "Colombia": "哥伦比亚",
+    "Brazil": "巴西",
+    "Kenya": "肯尼亚",
+    "Guatemala": "危地马拉"
+  },
+  "originNotes": {
+    "Costa Rica": "明亮的柑橘、蜂蜜甜感和干净的余韵",
+    "Colombia": "红色水果、焦糖和均衡的可可醇厚感",
+    "Brazil": "烘焙坚果、巧克力和顺滑低酸的口感",
+    "Kenya": "黑加仑、西柚和明亮的酸质",
+    "Guatemala": "红糖、可可和柔和的花香"
+  },
+  "processing": {
+    "Washed": "水洗",
+    "Natural": "日晒",
+    "Honey": "蜜处理",
+    "Anaerobic": "厌氧",
+    "Wet-hulled": "湿刨"
+  },
+  "processNotes": {
+    "Washed": "水洗处理让杯测更清爽透明。",
+    "Natural": "日晒处理带来成熟水果风味和更饱满的口感。",
+    "Honey": "蜜处理介于干净甜感和圆润质地之间。",
+    "Anaerobic": "厌氧发酵带来层次丰富、如葡萄酒般的复杂度。",
+    "Wet-hulled": "湿刨处理呈现泥土感和厚重的杯感。"
+  },
+  "countries": {
+    "Spain": "西班牙",
+    "USA": "美国"
+  },
+  "cities": {
+    "Madrid": "马德里",
+    "New York": "纽约",
+    "Boston": "波士顿",
+    "Philadelphia": "费城",
+    "Washington": "华盛顿",
+    "Miami": "迈阿密",
+    "Atlanta": "亚特兰大",
+    "New Orleans": "新奥尔良",
+    "Nashville": "纳什维尔",
+    "Austin": "奥斯汀",
+    "Houston": "休斯顿",
+    "Dallas": "达拉斯",
+    "Chicago": "芝加哥",
+    "Detroit": "底特律",
+    "Minneapolis": "明尼阿波利斯",
+    "Kansas City": "堪萨斯城",
+    "St. Louis": "圣路易斯",
+    "Denver": "丹佛",
+    "Salt Lake City": "盐湖城",
+    "Phoenix": "凤凰城",
+    "Las Vegas": "拉斯维加斯",
+    "Seattle": "西雅图",
+    "Portland": "波特兰",
+    "San Francisco": "旧金山",
+    "Los Angeles": "洛杉矶",
+    "San Diego": "圣迭戈",
+    "Honolulu": "檀香山",
+    "Anchorage": "安克雷奇"
+  }
+}

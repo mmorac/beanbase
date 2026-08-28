@@ -1,3 +1,4 @@
+import { TranslateFn } from '../../i18n/locales';
 import {
   MarkerData,
   OriginCountry,
@@ -101,5 +102,23 @@ export const getRoasterProducts = (client: MarkerData): RoasterProduct[] => {
   return products;
 };
 
-export const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(price);
+export const formatPrice = (price: number, locale = 'en-US') =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' }).format(price);
+
+export const getProductSizeKey = (weightGrams: number) =>
+  weightGrams === 1000 ? 'product.size1000' : 'product.size250';
+
+export const getTranslatedProductName = (product: RoasterProduct, t: TranslateFn) =>
+  t('product.name', {
+    origin: t(`origin.${product.origin}`),
+    process: t(`processing.${product.processingType}`),
+    organic: product.organic ? t('product.organicSuffix') : '',
+    size: t(getProductSizeKey(product.weightGrams)),
+  });
+
+export const getTranslatedProductDescription = (product: RoasterProduct, t: TranslateFn) =>
+  t('product.description', {
+    origin: t(`origin.${product.origin}`),
+    originNotes: t(`originNotes.${product.origin}`),
+    processNotes: t(`processNotes.${product.processingType}`),
+  });

@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "Idioma"
+  },
+  "common": {
+    "logoAlt": "Logótipo da BeanBase",
+    "brand": "BeanBase",
+    "organic": "Biológico",
+    "km": "{value} km"
+  },
+  "home": {
+    "subtitle": "Encontre a sua próxima chávena favorita",
+    "searchPlaceholder": "Pesquise por localização ou torrefator...",
+    "search": "Pesquisar",
+    "inspirationTitle": "Destinos populares",
+    "inspirationSubtitle": "Não sabe por onde começar? Compare torrefatores de especialidade nas cidades que os amantes de café mais exploram.",
+    "roastersCount": "{count} torrefatores",
+    "exploreDestination": "Explorar torrefatores de café em {city}",
+    "popular": "Popular"
+  },
+  "search": {
+    "brandTagline": "Pesquisa de torrefatores de café",
+    "filters": "Filtros",
+    "filtersAround": "Afine os torrefatores à volta de {place}.",
+    "hideFilters": "Ocultar filtros",
+    "showFilters": "Mostrar filtros",
+    "radius": "Raio de pesquisa",
+    "radiusAria": "Raio de pesquisa em quilómetros",
+    "origin": "País de origem",
+    "processing": "Tipo de processamento",
+    "organic": "Biológico",
+    "organicAvailable": "Café biológico disponível",
+    "resetFilters": "Repor filtros",
+    "nearby": "{count} torrefatores por perto",
+    "showing": "A mostrar opções a {radius} km de {place}.",
+    "prompt": "Pesquise uma cidade, um bairro ou um torrefator para ver opções próximas.",
+    "emptyFiltered": "Nenhum torrefator corresponde a estes filtros no raio selecionado.",
+    "emptyPrompt": "Introduza uma localização ou o nome de um torrefator para começar.",
+    "yourSearch": "a sua pesquisa"
+  },
+  "shop": {
+    "brandTagline": "Loja do torrefator",
+    "cartOne": "Carrinho · {count} artigo",
+    "cartOther": "Carrinho · {count} artigos",
+    "returnToSearch": "Voltar à pesquisa",
+    "availableProducts": "Produtos disponíveis",
+    "productsIntro": "Torras com base nas origens, processamentos e oferta biológica desta loja.",
+    "addToCart": "Adicionar ao carrinho",
+    "addAnother": "Adicionar outro · {count} no carrinho"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " biológico",
+    "size250": "250 g",
+    "size1000": "1 kg",
+    "description": "Café de origem única de {origin} com {originNotes}. {processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "Costa Rica",
+    "Colombia": "Colômbia",
+    "Brazil": "Brasil",
+    "Kenya": "Quénia",
+    "Guatemala": "Guatemala"
+  },
+  "originNotes": {
+    "Costa Rica": "citrinos brilhantes, doçura a mel e um final limpo",
+    "Colombia": "fruta vermelha, caramelo e um corpo equilibrado a cacau",
+    "Brazil": "frutos secos torrados, chocolate e uma chávena suave de baixa acidez",
+    "Kenya": "groselha preta, toranja e acidez cintilante",
+    "Guatemala": "açúcar mascavado, cacau e notas florais suaves"
+  },
+  "processing": {
+    "Washed": "Lavado",
+    "Natural": "Natural",
+    "Honey": "Honey",
+    "Anaerobic": "Anaeróbico",
+    "Wet-hulled": "Wet-hulled"
+  },
+  "processNotes": {
+    "Washed": "O processo lavado mantém a chávena nítida e transparente.",
+    "Natural": "O processo natural acrescenta fruta madura e um corpo mais suculento.",
+    "Honey": "O processo honey equilibra doçura limpa e textura redonda.",
+    "Anaerobic": "A fermentação anaeróbica traz complexidade em camadas, com notas a vinho.",
+    "Wet-hulled": "O processamento wet-hulled resulta numa chávena terrosa e de corpo cheio."
+  },
+  "countries": {
+    "Spain": "Espanha",
+    "USA": "Estados Unidos"
+  },
+  "cities": {
+    "Madrid": "Madrid",
+    "New York": "Nova Iorque",
+    "Boston": "Boston",
+    "Philadelphia": "Filadélfia",
+    "Washington": "Washington",
+    "Miami": "Miami",
+    "Atlanta": "Atlanta",
+    "New Orleans": "Nova Orleães",
+    "Nashville": "Nashville",
+    "Austin": "Austin",
+    "Houston": "Houston",
+    "Dallas": "Dallas",
+    "Chicago": "Chicago",
+    "Detroit": "Detroit",
+    "Minneapolis": "Minneapolis",
+    "Kansas City": "Kansas City",
+    "St. Louis": "St. Louis",
+    "Denver": "Denver",
+    "Salt Lake City": "Salt Lake City",
+    "Phoenix": "Phoenix",
+    "Las Vegas": "Las Vegas",
+    "Seattle": "Seattle",
+    "Portland": "Portland",
+    "San Francisco": "São Francisco",
+    "Los Angeles": "Los Angeles",
+    "San Diego": "San Diego",
+    "Honolulu": "Honolulu",
+    "Anchorage": "Anchorage"
+  }
+}

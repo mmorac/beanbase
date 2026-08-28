@@ -1,5 +1,6 @@
+import { translate } from '../../i18n/locales';
 import { DUMMY_CLIENTS } from '../home/map/dummyClients';
-import { getRoasterProducts } from './roasterCatalog';
+import { getRoasterProducts, getTranslatedProductName } from './roasterCatalog';
 
 describe('roaster catalog', () => {
   test('builds products from each roaster origin and processing type', () => {
@@ -24,5 +25,14 @@ describe('roaster catalog', () => {
     roaster!.processingTypes.forEach(process => {
       expect(products.some(product => product.processingType === process)).toBe(true);
     });
+  });
+
+  test('translates product names from locale files', () => {
+    const roaster = DUMMY_CLIENTS.find(client => client.title === 'Sol Roasters');
+    const product = getRoasterProducts(roaster!)[0];
+    const t = (key: string, vars?: Record<string, string | number>) => translate('es', key, vars);
+
+    expect(getTranslatedProductName(product, t)).toContain(translate('es', `origin.${product.origin}`));
+    expect(getTranslatedProductName(product, t)).toContain(translate('es', `processing.${product.processingType}`));
   });
 });

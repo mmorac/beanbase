@@ -1,5 +1,6 @@
 import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useI18n } from '../../../i18n/I18nContext';
 import Map from '../map/Map';
 import {
   DEFAULT_RADIUS_KM,
@@ -32,6 +33,7 @@ const toggleValue = <T,>(values: T[], value: T) =>
 
 const SearchAndMap: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q')?.trim() || '';
   const place = searchParams.get('place');
@@ -188,35 +190,35 @@ const SearchAndMap: React.FC = () => {
       <div className="search-results-shell">
         <header className="search-results-header">
           <Link to="/" className="search-results-brand">
-            <img src="/img/BeanBaseLogo.jpg" alt="BeanBase logo" className="search-results-logo" />
+            <img src="/img/BeanBaseLogo.jpg" alt={t('common.logoAlt')} className="search-results-logo" />
             <span className="search-results-brand-copy">
-              <strong>BeanBase</strong>
-              <span>Coffee roaster search</span>
+              <strong>{t('common.brand')}</strong>
+              <span>{t('search.brandTagline')}</span>
             </span>
           </Link>
 
           <div className="searchbar-wrap" ref={searchWrapRef}>
             <div className="searchbar-row">
-            <input
-              type="text"
-              className="searchbar-input"
-              placeholder="Search by location or roaster..."
-              value={draftQuery}
-              onChange={event => {
-                setDraftQuery(event.target.value);
-                setActiveSuggestion(-1);
-                setIsSuggestionsOpen(event.target.value.trim().length > 0);
-              }}
-              onFocus={() => draftQuery.trim() && setIsSuggestionsOpen(true)}
-              onKeyDown={handleKeyDown}
-              role="combobox"
-              aria-expanded={isSuggestionsOpen}
-              aria-controls="results-suggestions"
-              aria-autocomplete="list"
-            />
-            <button type="button" className="searchbar-submit" onClick={() => runSearch(draftQuery)}>
-              Search
-            </button>
+              <input
+                type="text"
+                className="searchbar-input"
+                placeholder={t('home.searchPlaceholder')}
+                value={draftQuery}
+                onChange={event => {
+                  setDraftQuery(event.target.value);
+                  setActiveSuggestion(-1);
+                  setIsSuggestionsOpen(event.target.value.trim().length > 0);
+                }}
+                onFocus={() => draftQuery.trim() && setIsSuggestionsOpen(true)}
+                onKeyDown={handleKeyDown}
+                role="combobox"
+                aria-expanded={isSuggestionsOpen}
+                aria-controls="results-suggestions"
+                aria-autocomplete="list"
+              />
+              <button type="button" className="searchbar-submit" onClick={() => runSearch(draftQuery)}>
+                {t('home.search')}
+              </button>
             </div>
             {isSuggestionsOpen && suggestions.length > 0 && (
               <ul id="results-suggestions" className="searchbar-suggestions" role="listbox">
@@ -259,8 +261,12 @@ const SearchAndMap: React.FC = () => {
           <aside className={`search-results-panel${filtersOpen ? ' is-open' : ''}`}>
             <div className="search-results-panel-header">
               <div>
-                <h2>Filters</h2>
-                <p>Narrow the roasters around {searchTarget?.label || query || 'your search'}.</p>
+                <h2>{t('search.filters')}</h2>
+                <p>
+                  {t('search.filtersAround', {
+                    place: searchTarget?.label || query || t('search.yourSearch'),
+                  })}
+                </p>
               </div>
               <button
                 type="button"
@@ -269,89 +275,92 @@ const SearchAndMap: React.FC = () => {
                 aria-controls="search-filters"
                 onClick={() => setFiltersOpen(open => !open)}
               >
-                {filtersOpen ? 'Hide filters' : 'Show filters'}
+                {filtersOpen ? t('search.hideFilters') : t('search.showFilters')}
               </button>
             </div>
 
-            <div id="search-filters" className="search-results-filters">
-            <div className="filter-group">
-              <div className="radius-header">
-                <h3>Search radius</h3>
-                <span className="radius-value">{radiusKm.toFixed(1)} km</span>
-              </div>
-              <input
-                className="radius-slider"
-                type="range"
-                min={MIN_RADIUS_KM}
-                max={MAX_RADIUS_KM}
-                step={RADIUS_STEP_KM}
-                value={radiusKm}
-                onChange={event => setRadiusKm(Number(event.target.value))}
-                aria-label="Search radius in kilometers"
-              />
-              <div className="radius-scale">
-                <span>{MIN_RADIUS_KM} km</span>
-                <span>{MAX_RADIUS_KM} km</span>
-              </div>
-            </div>
-
-            <div className="filter-group">
-              <h3>Country of origin</h3>
-              <div className="filter-options">
-                {ORIGIN_COUNTRIES.map(origin => (
-                  <label key={origin} className="filter-option">
-                    <input
-                      type="checkbox"
-                      checked={selectedOrigins.includes(origin)}
-                      onChange={() => setSelectedOrigins(current => toggleValue(current, origin))}
-                    />
-                    {origin}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="filter-group">
-              <h3>Processing type</h3>
-              <div className="filter-options">
-                {PROCESSING_TYPES.map(process => (
-                  <label key={process} className="filter-option">
-                    <input
-                      type="checkbox"
-                      checked={selectedProcessing.includes(process)}
-                      onChange={() => setSelectedProcessing(current => toggleValue(current, process))}
-                    />
-                    {process}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="filter-group">
-              <h3>Organic</h3>
-              <label className="filter-option">
+            <div id="search-filters" className="search-filters">
+              <div className="filter-group">
+                <div className="radius-header">
+                  <h3>{t('search.radius')}</h3>
+                  <span className="radius-value">{t('common.km', { value: radiusKm.toFixed(1) })}</span>
+                </div>
                 <input
-                  type="checkbox"
-                  checked={organicOnly}
-                  onChange={event => setOrganicOnly(event.target.checked)}
+                  className="radius-slider"
+                  type="range"
+                  min={MIN_RADIUS_KM}
+                  max={MAX_RADIUS_KM}
+                  step={RADIUS_STEP_KM}
+                  value={radiusKm}
+                  onChange={event => setRadiusKm(Number(event.target.value))}
+                  aria-label={t('search.radiusAria')}
                 />
-                Organic coffee available
-              </label>
-            </div>
+                <div className="radius-scale">
+                  <span>{t('common.km', { value: MIN_RADIUS_KM })}</span>
+                  <span>{t('common.km', { value: MAX_RADIUS_KM })}</span>
+                </div>
+              </div>
 
-            <button type="button" className="clear-filters" onClick={clearFilters}>
-              Reset filters
-            </button>
+              <div className="filter-group">
+                <h3>{t('search.origin')}</h3>
+                <div className="filter-options">
+                  {ORIGIN_COUNTRIES.map(origin => (
+                    <label key={origin} className="filter-option">
+                      <input
+                        type="checkbox"
+                        checked={selectedOrigins.includes(origin)}
+                        onChange={() => setSelectedOrigins(current => toggleValue(current, origin))}
+                      />
+                      {t(`origin.${origin}`)}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-group">
+                <h3>{t('search.processing')}</h3>
+                <div className="filter-options">
+                  {PROCESSING_TYPES.map(process => (
+                    <label key={process} className="filter-option">
+                      <input
+                        type="checkbox"
+                        checked={selectedProcessing.includes(process)}
+                        onChange={() => setSelectedProcessing(current => toggleValue(current, process))}
+                      />
+                      {t(`processing.${process}`)}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-group">
+                <h3>{t('search.organic')}</h3>
+                <label className="filter-option">
+                  <input
+                    type="checkbox"
+                    checked={organicOnly}
+                    onChange={event => setOrganicOnly(event.target.checked)}
+                  />
+                  {t('search.organicAvailable')}
+                </label>
+              </div>
+
+              <button type="button" className="clear-filters" onClick={clearFilters}>
+                {t('search.resetFilters')}
+              </button>
             </div>
           </aside>
 
           <section className="search-results-list">
             <div className="search-results-list-header">
-              <h2>{filteredRoasters.length} roasters nearby</h2>
+              <h2>{t('search.nearby', { count: filteredRoasters.length })}</h2>
               <p>
                 {query
-                  ? `Showing options within ${radiusKm} km of ${searchTarget?.label || query}.`
-                  : 'Search a city, neighborhood, or roaster to see nearby options.'}
+                  ? t('search.showing', {
+                      radius: radiusKm,
+                      place: searchTarget?.label || query,
+                    })
+                  : t('search.prompt')}
               </p>
             </div>
 
@@ -371,20 +380,22 @@ const SearchAndMap: React.FC = () => {
                       <div className="roaster-card-top">
                         <div>
                           <h3>{name}</h3>
-                          <p className="roaster-card-location">{getClientLocationLabel(client)}</p>
+                          <p>{getClientLocationLabel(client)}</p>
                         </div>
-                        <p className="roaster-card-distance">{client.distanceKm.toFixed(1)} km</p>
+                        <p className="roaster-card-distance">
+                          {t('common.km', { value: client.distanceKm.toFixed(1) })}
+                        </p>
                       </div>
                       <div className="roaster-card-tags">
-                        {client.organic && <span className="roaster-tag is-organic">Organic</span>}
+                        {client.organic && <span className="roaster-tag is-organic">{t('common.organic')}</span>}
                         {client.origins.map(origin => (
                           <span key={origin} className="roaster-tag">
-                            {origin}
+                            {t(`origin.${origin}`)}
                           </span>
                         ))}
                         {client.processingTypes.map(process => (
                           <span key={process} className="roaster-tag">
-                            {process}
+                            {t(`processing.${process}`)}
                           </span>
                         ))}
                       </div>
@@ -394,9 +405,7 @@ const SearchAndMap: React.FC = () => {
               </div>
             ) : (
               <div className="search-results-empty">
-                {query
-                  ? 'No roasters match these filters in the selected radius.'
-                  : 'Enter a location or roaster name to start searching.'}
+                {query ? t('search.emptyFiltered') : t('search.emptyPrompt')}
               </div>
             )}
           </section>

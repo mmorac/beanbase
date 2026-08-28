@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "اللغة"
+  },
+  "common": {
+    "logoAlt": "شعار BeanBase",
+    "brand": "BeanBase",
+    "organic": "عضوي",
+    "km": "{value} كم"
+  },
+  "home": {
+    "subtitle": "اعثر على فنجانك المفضل التالي",
+    "searchPlaceholder": "ابحث حسب الموقع أو المحمصة...",
+    "search": "بحث",
+    "inspirationTitle": "وجهات شائعة",
+    "inspirationSubtitle": "لست متأكدًا من أين تبدأ؟ قارن محامص القهوة المختصة في المدن التي يستكشفها عشاق القهوة أكثر من غيرها.",
+    "roastersCount": "{count} محامص",
+    "exploreDestination": "استكشف محامص القهوة في {city}",
+    "popular": "شائع"
+  },
+  "search": {
+    "brandTagline": "البحث عن محامص القهوة",
+    "filters": "عوامل التصفية",
+    "filtersAround": "ضيّق المحامص حول {place}.",
+    "hideFilters": "إخفاء عوامل التصفية",
+    "showFilters": "إظهار عوامل التصفية",
+    "radius": "نطاق البحث",
+    "radiusAria": "نطاق البحث بالكيلومترات",
+    "origin": "بلد المنشأ",
+    "processing": "نوع المعالجة",
+    "organic": "عضوي",
+    "organicAvailable": "قهوة عضوية متوفرة",
+    "resetFilters": "إعادة ضبط عوامل التصفية",
+    "nearby": "{count} محامص قريبة",
+    "showing": "عرض الخيارات ضمن {radius} كم من {place}.",
+    "prompt": "ابحث عن مدينة أو حي أو محمصة لعرض الخيارات القريبة.",
+    "emptyFiltered": "لا توجد محامص تطابق عوامل التصفية هذه ضمن النطاق المحدد.",
+    "emptyPrompt": "أدخل موقعًا أو اسم محمصة لبدء البحث.",
+    "yourSearch": "بحثك"
+  },
+  "shop": {
+    "brandTagline": "متجر المحمصة",
+    "cartOne": "السلة · عنصر واحد",
+    "cartOther": "السلة · {count} عناصر",
+    "returnToSearch": "العودة إلى البحث",
+    "availableProducts": "المنتجات المتوفرة",
+    "productsIntro": "تحميصات وفقًا لمنشأ هذه المحمصة ومعالجتها وعرضها العضوي.",
+    "addToCart": "أضف إلى السلة",
+    "addAnother": "أضف المزيد · {count} في السلة"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " عضوي",
+    "size250": "250غ",
+    "size1000": "1كغ",
+    "description": "قهوة من منشأ واحد من {origin} تتميز بـ{originNotes}. {processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "كوستاريكا",
+    "Colombia": "كولومبيا",
+    "Brazil": "البرازيل",
+    "Kenya": "كينيا",
+    "Guatemala": "غواتيمالا"
+  },
+  "originNotes": {
+    "Costa Rica": "حمضيات مشرقة وحلاوة عسلية ونهاية نظيفة",
+    "Colombia": "فاكهة حمراء وكراميل وجسم متوازن بنكهة الكاكاو",
+    "Brazil": "مكسرات محمصة وشوكولاتة وفنجان ناعم منخفض الحموضة",
+    "Kenya": "كشمش أسود وجريب فروت وحموضة متألقة",
+    "Guatemala": "سكر بني وكاكاو ونفحات زهرية خفيفة"
+  },
+  "processing": {
+    "Washed": "مغسول",
+    "Natural": "طبيعي",
+    "Honey": "عسلي",
+    "Anaerobic": "لا هوائي",
+    "Wet-hulled": "مقشر رطب"
+  },
+  "processNotes": {
+    "Washed": "المعالجة المغسولة تبقي الفنجان واضحًا وشفافًا.",
+    "Natural": "المعالجة الطبيعية تضيف فاكهة ناضجة وجسمًا أكثر عصارة.",
+    "Honey": "المعالجة العسلية تجمع بين الحلاوة النظيفة والقوام المستدير.",
+    "Anaerobic": "التخمير اللاهوائي يمنح تعقيدًا متدرجًا بنفحات تشبه النبيذ.",
+    "Wet-hulled": "المعالجة بالتقشير الرطب تنتج فنجانًا ترابيًا كامل القوام."
+  },
+  "countries": {
+    "Spain": "إسبانيا",
+    "USA": "الولايات المتحدة"
+  },
+  "cities": {
+    "Madrid": "مدريد",
+    "New York": "نيويورك",
+    "Boston": "بوسطن",
+    "Philadelphia": "فيلادلفيا",
+    "Washington": "واشنطن",
+    "Miami": "ميامي",
+    "Atlanta": "أتلانتا",
+    "New Orleans": "نيو أورلينز",
+    "Nashville": "ناشفيل",
+    "Austin": "أوستن",
+    "Houston": "هيوستن",
+    "Dallas": "دالاس",
+    "Chicago": "شيكاغو",
+    "Detroit": "ديترويت",
+    "Minneapolis": "مينيابوليس",
+    "Kansas City": "كانساس سيتي",
+    "St. Louis": "سانت لويس",
+    "Denver": "دنفر",
+    "Salt Lake City": "سولت ليك سيتي",
+    "Phoenix": "فينيكس",
+    "Las Vegas": "لاس فيغاس",
+    "Seattle": "سياتل",
+    "Portland": "بورتلاند",
+    "San Francisco": "سان فرانسيسكو",
+    "Los Angeles": "لوس أنجلوس",
+    "San Diego": "سان دييغو",
+    "Honolulu": "هونولولو",
+    "Anchorage": "أنكوريج"
+  }
+}

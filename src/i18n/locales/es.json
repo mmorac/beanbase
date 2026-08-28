@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "Idioma"
+  },
+  "common": {
+    "logoAlt": "Logotipo de BeanBase",
+    "brand": "BeanBase",
+    "organic": "Orgánico",
+    "km": "{value} km"
+  },
+  "home": {
+    "subtitle": "Encuentra tu próxima taza favorita",
+    "searchPlaceholder": "Busca por ubicación o tostador...",
+    "search": "Buscar",
+    "inspirationTitle": "Destinos populares",
+    "inspirationSubtitle": "¿No sabes por dónde empezar? Compara tostadores de especialidad en las ciudades que más exploran los amantes del café.",
+    "roastersCount": "{count} tostadores",
+    "exploreDestination": "Explorar tostadores de café en {city}",
+    "popular": "Popular"
+  },
+  "search": {
+    "brandTagline": "Búsqueda de tostadores de café",
+    "filters": "Filtros",
+    "filtersAround": "Filtra los tostadores alrededor de {place}.",
+    "hideFilters": "Ocultar filtros",
+    "showFilters": "Mostrar filtros",
+    "radius": "Radio de búsqueda",
+    "radiusAria": "Radio de búsqueda en kilómetros",
+    "origin": "País de origen",
+    "processing": "Tipo de proceso",
+    "organic": "Orgánico",
+    "organicAvailable": "Café orgánico disponible",
+    "resetFilters": "Restablecer filtros",
+    "nearby": "{count} tostadores cerca",
+    "showing": "Mostrando opciones a {radius} km de {place}.",
+    "prompt": "Busca una ciudad, un barrio o un tostador para ver opciones cercanas.",
+    "emptyFiltered": "Ningún tostador coincide con estos filtros en el radio seleccionado.",
+    "emptyPrompt": "Introduce una ubicación o el nombre de un tostador para empezar.",
+    "yourSearch": "tu búsqueda"
+  },
+  "shop": {
+    "brandTagline": "Tienda del tostador",
+    "cartOne": "Carrito · {count} artículo",
+    "cartOther": "Carrito · {count} artículos",
+    "returnToSearch": "Volver a la búsqueda",
+    "availableProducts": "Productos disponibles",
+    "productsIntro": "Tueste según los orígenes, procesos y oferta orgánica de esta tienda.",
+    "addToCart": "Añadir al carrito",
+    "addAnother": "Añadir otro · {count} en el carrito"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " orgánico",
+    "size250": "250 g",
+    "size1000": "1 kg",
+    "description": "Café de origen único de {origin} con {originNotes}. {processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "Costa Rica",
+    "Colombia": "Colombia",
+    "Brazil": "Brasil",
+    "Kenya": "Kenia",
+    "Guatemala": "Guatemala"
+  },
+  "originNotes": {
+    "Costa Rica": "cítricos brillantes, dulzor a miel y un final limpio",
+    "Colombia": "fruta roja, caramelo y un cuerpo equilibrado a cacao",
+    "Brazil": "frutos secos tostados, chocolate y una taza suave de baja acidez",
+    "Kenya": "grosella negra, pomelo y una acidez chispeante",
+    "Guatemala": "azúcar moreno, cacao y suaves notas florales"
+  },
+  "processing": {
+    "Washed": "Lavado",
+    "Natural": "Natural",
+    "Honey": "Honey",
+    "Anaerobic": "Anaeróbico",
+    "Wet-hulled": "Wet-hulled"
+  },
+  "processNotes": {
+    "Washed": "El proceso lavado mantiene la taza nítida y transparente.",
+    "Natural": "El proceso natural aporta fruta madura y un cuerpo más jugoso.",
+    "Honey": "El proceso honey equilibra un dulzor limpio y una textura redonda.",
+    "Anaerobic": "La fermentación anaeróbica aporta complejidad en capas, con matices a vino.",
+    "Wet-hulled": "El proceso wet-hulled ofrece una taza terrosa y de cuerpo completo."
+  },
+  "countries": {
+    "Spain": "España",
+    "USA": "Estados Unidos"
+  },
+  "cities": {
+    "Madrid": "Madrid",
+    "New York": "Nueva York",
+    "Boston": "Boston",
+    "Philadelphia": "Filadelfia",
+    "Washington": "Washington",
+    "Miami": "Miami",
+    "Atlanta": "Atlanta",
+    "New Orleans": "Nueva Orleans",
+    "Nashville": "Nashville",
+    "Austin": "Austin",
+    "Houston": "Houston",
+    "Dallas": "Dallas",
+    "Chicago": "Chicago",
+    "Detroit": "Detroit",
+    "Minneapolis": "Minneapolis",
+    "Kansas City": "Kansas City",
+    "St. Louis": "San Luis",
+    "Denver": "Denver",
+    "Salt Lake City": "Salt Lake City",
+    "Phoenix": "Phoenix",
+    "Las Vegas": "Las Vegas",
+    "Seattle": "Seattle",
+    "Portland": "Portland",
+    "San Francisco": "San Francisco",
+    "Los Angeles": "Los Ángeles",
+    "San Diego": "San Diego",
+    "Honolulu": "Honolulu",
+    "Anchorage": "Anchorage"
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { I18nProvider } from '../../i18n/I18nContext';
 import { CartProvider } from '../cart/CartContext';
 import { DUMMY_CLIENTS, getClientAddress, getClientName, getClientSlug } from '../home/map/dummyClients';
 import { formatPrice, getRoasterProducts } from './roasterCatalog';
@@ -8,17 +9,19 @@ import RoasterShop from './RoasterShop';
 
 const renderShop = (path: string, fromSearch?: string) =>
   render(
-    <MemoryRouter
-      initialEntries={[{ pathname: path, state: fromSearch ? { fromSearch } : undefined }]}
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
-      <CartProvider>
-        <Routes>
-          <Route path="/roaster/:slug" element={<RoasterShop />} />
-          <Route path="/search" element={<div>Search page</div>} />
-        </Routes>
-      </CartProvider>
-    </MemoryRouter>
+    <I18nProvider>
+      <MemoryRouter
+        initialEntries={[{ pathname: path, state: fromSearch ? { fromSearch } : undefined }]}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
+        <CartProvider>
+          <Routes>
+            <Route path="/roaster/:slug" element={<RoasterShop />} />
+            <Route path="/search" element={<div>Search page</div>} />
+          </Routes>
+        </CartProvider>
+      </MemoryRouter>
+    </I18nProvider>
   );
 
 beforeEach(() => {

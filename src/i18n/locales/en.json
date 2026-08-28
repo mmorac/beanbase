@@ -1,0 +1,120 @@
+{
+  "language": {
+    "label": "Language"
+  },
+  "common": {
+    "logoAlt": "BeanBase logo",
+    "brand": "BeanBase",
+    "organic": "Organic",
+    "km": "{value} km"
+  },
+  "home": {
+    "subtitle": "Find your next favorite cup",
+    "searchPlaceholder": "Search by location or roaster...",
+    "search": "Search",
+    "inspirationTitle": "Popular destinations",
+    "inspirationSubtitle": "Not sure where to start? Compare specialty roasters in cities coffee lovers explore most.",
+    "roastersCount": "{count} roasters",
+    "exploreDestination": "Explore coffee roasters in {city}",
+    "popular": "Popular"
+  },
+  "search": {
+    "brandTagline": "Coffee roaster search",
+    "filters": "Filters",
+    "filtersAround": "Narrow the roasters around {place}.",
+    "hideFilters": "Hide filters",
+    "showFilters": "Show filters",
+    "radius": "Search radius",
+    "radiusAria": "Search radius in kilometers",
+    "origin": "Country of origin",
+    "processing": "Processing type",
+    "organic": "Organic",
+    "organicAvailable": "Organic coffee available",
+    "resetFilters": "Reset filters",
+    "nearby": "{count} roasters nearby",
+    "showing": "Showing options within {radius} km of {place}.",
+    "prompt": "Search a city, neighborhood, or roaster to see nearby options.",
+    "emptyFiltered": "No roasters match these filters in the selected radius.",
+    "emptyPrompt": "Enter a location or roaster name to start searching.",
+    "yourSearch": "your search"
+  },
+  "shop": {
+    "brandTagline": "Coffee roaster shop",
+    "cartOne": "Cart · {count} item",
+    "cartOther": "Cart · {count} items",
+    "returnToSearch": "Return to search",
+    "availableProducts": "Available products",
+    "productsIntro": "Roasts based on this shop’s origins, processing, and organic offering.",
+    "addToCart": "Add to cart",
+    "addAnother": "Add another · {count} in cart"
+  },
+  "product": {
+    "name": "{origin} {process}{organic} · {size}",
+    "organicSuffix": " Organic",
+    "size250": "250g",
+    "size1000": "1kg",
+    "description": "Single-origin {origin} coffee with {originNotes}. {processNotes}"
+  },
+  "origin": {
+    "Costa Rica": "Costa Rica",
+    "Colombia": "Colombia",
+    "Brazil": "Brazil",
+    "Kenya": "Kenya",
+    "Guatemala": "Guatemala"
+  },
+  "originNotes": {
+    "Costa Rica": "bright citrus, honeyed sweetness, and a clean finish",
+    "Colombia": "red fruit, caramel, and a balanced cocoa body",
+    "Brazil": "roasted nuts, chocolate, and a smooth low-acid cup",
+    "Kenya": "blackcurrant, grapefruit, and sparkling acidity",
+    "Guatemala": "brown sugar, cocoa, and gentle floral notes"
+  },
+  "processing": {
+    "Washed": "Washed",
+    "Natural": "Natural",
+    "Honey": "Honey",
+    "Anaerobic": "Anaerobic",
+    "Wet-hulled": "Wet-hulled"
+  },
+  "processNotes": {
+    "Washed": "A washed process keeps the cup crisp and transparent.",
+    "Natural": "A natural process adds ripe fruit and a juicier body.",
+    "Honey": "A honey process sits between clean sweetness and round texture.",
+    "Anaerobic": "An anaerobic fermentation brings layered, winey complexity.",
+    "Wet-hulled": "Wet-hulled processing yields an earthy, full-bodied cup."
+  },
+  "countries": {
+    "Spain": "Spain",
+    "USA": "United States"
+  },
+  "cities": {
+    "Madrid": "Madrid",
+    "New York": "New York",
+    "Boston": "Boston",
+    "Philadelphia": "Philadelphia",
+    "Washington": "Washington",
+    "Miami": "Miami",
+    "Atlanta": "Atlanta",
+    "New Orleans": "New Orleans",
+    "Nashville": "Nashville",
+    "Austin": "Austin",
+    "Houston": "Houston",
+    "Dallas": "Dallas",
+    "Chicago": "Chicago",
+    "Detroit": "Detroit",
+    "Minneapolis": "Minneapolis",
+    "Kansas City": "Kansas City",
+    "St. Louis": "St. Louis",
+    "Denver": "Denver",
+    "Salt Lake City": "Salt Lake City",
+    "Phoenix": "Phoenix",
+    "Las Vegas": "Las Vegas",
+    "Seattle": "Seattle",
+    "Portland": "Portland",
+    "San Francisco": "San Francisco",
+    "Los Angeles": "Los Angeles",
+    "San Diego": "San Diego",
+    "Honolulu": "Honolulu",
+    "Anchorage": "Anchorage"
+  }
+}

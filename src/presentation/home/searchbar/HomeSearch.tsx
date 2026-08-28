@@ -1,5 +1,7 @@
 import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '../../../i18n/I18nContext';
+import DestinationSuggestions from '../DestinationSuggestions';
 import {
   DUMMY_CLIENTS,
   MarkerData,
@@ -11,6 +13,7 @@ import './SearchBar.css';
 
 const HomeSearch: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [search, setSearch] = useState('');
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(-1);
@@ -91,15 +94,15 @@ const HomeSearch: React.FC = () => {
   return (
     <div className="searchbar-container">
       <div className="searchbar-panel">
-      <img src="/img/BeanBaseLogo.jpg" alt="BeanBase logo" className="logo-image" style={{ display: 'block' }} />
-      <p className="brand-subtitle">Find your next favorite cup</p>
+      <img src="/img/BeanBaseLogo.jpg" alt={t('common.logoAlt')} className="logo-image" style={{ display: 'block' }} />
+      <p className="brand-subtitle">{t('home.subtitle')}</p>
 
       <div className="searchbar-wrap" ref={searchWrapRef}>
         <div className="searchbar-row">
         <input
           type="text"
           className="searchbar-input"
-          placeholder="Search by location or roaster..."
+          placeholder={t('home.searchPlaceholder')}
           value={search}
           onChange={e => handleSearchChange(e.target.value)}
           onFocus={() => search.trim() && setIsSuggestionsOpen(true)}
@@ -110,7 +113,7 @@ const HomeSearch: React.FC = () => {
           aria-autocomplete="list"
         />
         <button type="button" className="searchbar-submit" onClick={() => openResults(search)}>
-          Search
+          {t('home.search')}
         </button>
         </div>
         {isSuggestionsOpen && suggestions.length > 0 && (
@@ -140,6 +143,7 @@ const HomeSearch: React.FC = () => {
         )}
       </div>
       </div>
+      <DestinationSuggestions />
     </div>
   );
 };
